@@ -1,4 +1,5 @@
 export type StorageOption = "128GB" | "256GB" | "512GB" | "1TB";
+export type ProductCategory = "iPhone" | "iPad" | "MacBook" | "Apple Watch" | "Acessórios";
 
 export interface ProductVariant {
   storage: StorageOption;
@@ -21,7 +22,7 @@ export interface Product {
   model: string;
   shortDescription: string;
   description: string;
-  category: "iPhone";
+  category: ProductCategory;
   featured: boolean;
   isNew: boolean;
   priceIsEstimated: boolean;

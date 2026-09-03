@@ -29,6 +29,7 @@ function color(
   };
 }
 
+// Tutorial completo: leia src/data/TUTORIAL-PRODUTOS-NOVOS.md antes de editar.
 // Edite os produtos aqui. Para adicionar novas cores no futuro, acrescente outro objeto em "colors"
 // com imagens reais daquela cor e suas variantes de armazenamento/estoque/preço.
 export const products: Product[] = [
@@ -305,7 +306,3 @@ export const products: Product[] = [
 ];
 
 export const storageOptions = STORAGE_OPTIONS;
-
-export function getProductBySlug(slug: string) {
-  return products.find((product) => product.slug === slug);
-}

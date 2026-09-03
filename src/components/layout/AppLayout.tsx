@@ -15,14 +15,14 @@ export function AppLayout() {
   }, [location.pathname, location.search]);
 
   return (
-    <div className="min-h-screen bg-white text-ink">
+    <div className="min-h-screen min-w-0 overflow-x-hidden bg-white text-ink">
       <Sidebar
         onCartOpen={() => setCartOpen(true)}
         collapsed={sidebarCollapsed}
         onCollapsedChange={setSidebarCollapsed}
       />
-      <div className={sidebarCollapsed ? "flex min-h-screen flex-col lg:pl-20" : "flex min-h-screen flex-col lg:pl-64"}>
-        <main className="flex-1 pb-24 lg:pb-0">
+      <div className={sidebarCollapsed ? "flex min-h-screen min-w-0 flex-col lg:pl-20" : "flex min-h-screen min-w-0 flex-col lg:pl-64"}>
+        <main className="min-w-0 flex-1 pb-24 lg:pb-0">
           <Outlet />
         </main>
         <Footer />

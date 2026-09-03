@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/layout/AppLayout";
 import { HomePage } from "./pages/HomePage";
 import { CatalogPage } from "./pages/CatalogPage";
+import { SeminovosPage } from "./pages/SeminovosPage";
 import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
 import { FavoritesPage } from "./pages/FavoritesPage";
@@ -14,6 +15,7 @@ export function App() {
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path="iphones" element={<CatalogPage />} />
+        <Route path="seminovos" element={<SeminovosPage />} />
         <Route path="produto/:slug" element={<ProductPage />} />
         <Route path="carrinho" element={<CartPage />} />
         <Route path="favoritos" element={<FavoritesPage />} />

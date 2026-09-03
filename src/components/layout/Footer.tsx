@@ -32,6 +32,9 @@ export function Footer() {
             <Link to="/iphones" className="text-slate-600 transition hover:text-blue-brand">
               iPhones
             </Link>
+            <Link to="/seminovos" className="text-slate-600 transition hover:text-blue-brand">
+              Seminovos
+            </Link>
             <Link to="/carrinho" className="text-slate-600 transition hover:text-blue-brand">
               Carrinho
             </Link>

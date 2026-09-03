@@ -40,14 +40,18 @@ export function useScrollReveal() {
     const preparedElements = new WeakSet<HTMLElement>();
     let observer: IntersectionObserver | undefined;
 
+    function revealElement(element: HTMLElement) {
+      element.dataset.revealed = "true";
+      element.classList.add("is-visible");
+      observer?.unobserve(element);
+    }
+
     if (!reducedMotion) {
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-            } else {
-              entry.target.classList.remove("is-visible");
+              revealElement(entry.target as HTMLElement);
             }
           });
         },
@@ -59,13 +63,13 @@ export function useScrollReveal() {
     }
 
     function prepareElement(element: HTMLElement) {
-      if (preparedElements.has(element) || element.classList.contains("is-visible")) return;
+      if (preparedElements.has(element) || element.dataset.revealed === "true") return;
 
       preparedElements.add(element);
       element.style.setProperty("--reveal-delay", reducedMotion ? "0ms" : getRevealDelay(element));
 
       if (reducedMotion) {
-        element.classList.add("is-visible");
+        revealElement(element);
         return;
       }
 

@@ -1,7 +1,7 @@
 import { ArrowLeft, Heart, MessageCircle, Share2, ShoppingBag } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { getProductBySlug } from "../data/products";
+import { getProductBySlug } from "../data/catalog";
 import type { ProductColor, ProductVariant, StorageOption } from "../types/product";
 import { useCart } from "../contexts/CartContext";
 import { useFavorites } from "../contexts/FavoritesContext";

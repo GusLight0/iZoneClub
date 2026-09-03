@@ -1,13 +1,13 @@
-import { Home, MessageCircle, ShoppingBag, Smartphone } from "lucide-react";
+import { Home, PackageCheck, ShoppingBag, Smartphone } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { cn } from "../../utils/cn";
 
 const navItems = [
   { label: "Início", href: "/", icon: Home },
-  { label: "Catálogo", href: "/iphones", icon: Smartphone },
-  { label: "Carrinho", href: "/carrinho", icon: ShoppingBag },
-  { label: "Contato", href: "/atendimento", icon: MessageCircle }
+  { label: "iPhones", href: "/iphones", icon: Smartphone },
+  { label: "Seminovos", href: "/seminovos", icon: PackageCheck },
+  { label: "Carrinho", href: "/carrinho", icon: ShoppingBag }
 ];
 
 export function BottomNavigation() {
@@ -30,12 +30,12 @@ export function BottomNavigation() {
               key={item.href}
               to={item.href}
               className={cn(
-                "relative flex min-h-12 flex-col items-center justify-center gap-1 rounded-ui text-[11px] font-medium outline-none transition duration-200 focus-visible:ring-2 focus-visible:ring-blue-brand",
+                "relative flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-ui px-0.5 text-[10px] font-medium outline-none transition duration-200 focus-visible:ring-2 focus-visible:ring-blue-brand sm:text-[11px]",
                 active ? "bg-blue-brand text-white shadow-lift" : "text-slate-600 hover:bg-blue-soft hover:text-blue-deep"
               )}
             >
               <Icon className={cn("h-5 w-5 transition duration-200", active && "scale-105")} aria-hidden="true" />
-              <span>{item.label}</span>
+              <span className="max-w-full truncate">{item.label}</span>
               {item.label === "Carrinho" && itemCount > 0 ? (
                 <span className="absolute right-3 top-1 grid h-4 min-w-4 place-items-center rounded-full bg-blue-brand px-1 text-[10px] font-semibold text-white">
                   {itemCount}
