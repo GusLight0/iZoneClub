@@ -257,7 +257,7 @@ export function CatalogPage() {
             Produtos novos disponíveis
           </h1>
           <p className="mt-3 max-w-[310px] text-sm leading-6 text-slate-600 sm:max-w-2xl">
-            Busque e encontre seu futuro celular por aqui.
+            Busque e encontre seu próximo produto Apple por aqui.
           </p>
         </div>
 

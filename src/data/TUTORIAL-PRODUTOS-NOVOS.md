@@ -35,10 +35,10 @@ Não coloque `public` no caminho da imagem dentro do código.
 Os produtos cadastrados em `src/data/products.ts` aparecem em:
 
 ```txt
-/iphones
+/produtos-novos
 ```
 
-Apesar do endereço ainda se chamar `/iphones`, essa é a seção de produtos novos. As categorias ficam dentro dos filtros e já aceitam:
+Essa é a seção de produtos novos. As categorias ficam dentro dos filtros e já aceitam:
 
 ```txt
 iPhone
@@ -354,7 +354,7 @@ npm.cmd run dev
 Depois acesse:
 
 ```txt
-http://127.0.0.1:5173/iphones
+http://127.0.0.1:5173/produtos-novos
 ```
 
 ## Erros comuns

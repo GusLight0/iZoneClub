@@ -56,8 +56,8 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
               title="Seu carrinho está vazio."
               description="Encontre seu próximo iPhone e finalize pelo WhatsApp."
               action={
-                <Link to="/iphones" onClick={onClose} className={buttonClassName({ variant: "primary" })}>
-                  Explorar iPhones
+                <Link to="/produtos-novos" onClick={onClose} className={buttonClassName({ variant: "primary" })}>
+                  Explorar produtos
                 </Link>
               }
             />

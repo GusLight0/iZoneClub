@@ -25,8 +25,8 @@ export function CartPage() {
         title="Seu carrinho está vazio."
         description="Encontre seu próximo iPhone e finalize pelo WhatsApp."
         action={
-          <Link to="/iphones" className={buttonClassName({ variant: "primary" })}>
-            Explorar iPhones
+          <Link to="/produtos-novos" className={buttonClassName({ variant: "primary" })}>
+            Explorar produtos
           </Link>
         }
       />

@@ -68,7 +68,7 @@ export function ProductPage() {
             Voltar
           </button>
           <h1 className="text-3xl font-semibold text-ink">Produto não encontrado.</h1>
-          <Link to="/iphones" className={buttonClassName({ variant: "primary", className: "mt-6" })}>
+          <Link to="/produtos-novos" className={buttonClassName({ variant: "primary", className: "mt-6" })}>
             Ver catálogo
           </Link>
         </div>
@@ -146,8 +146,8 @@ export function ProductPage() {
             Início
           </Link>
           <span>/</span>
-          <Link to="/iphones" className="transition hover:text-blue-brand">
-            iPhones
+          <Link to="/produtos-novos" className="transition hover:text-blue-brand">
+            Produtos novos
           </Link>
           <span>/</span>
           <span className="text-slate-700">{product.name}</span>

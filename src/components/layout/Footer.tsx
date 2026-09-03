@@ -9,7 +9,7 @@ export function Footer() {
         <div>
           <BrandLogo showName size="md" />
           <p className="mt-4 max-w-sm text-sm leading-6 text-slate-600">
-            E-commerce premium especializado em iPhones, com atendimento direto pelo WhatsApp.
+            E-commerce premium especializado em produtos Apple, com atendimento direto pelo WhatsApp.
           </p>
         </div>
         <div>
@@ -29,8 +29,8 @@ export function Footer() {
             <Link to="/" className="text-slate-600 transition hover:text-blue-brand">
               Início
             </Link>
-            <Link to="/iphones" className="text-slate-600 transition hover:text-blue-brand">
-              iPhones
+            <Link to="/produtos-novos" className="text-slate-600 transition hover:text-blue-brand">
+              Produtos novos
             </Link>
             <Link to="/seminovos" className="text-slate-600 transition hover:text-blue-brand">
               Seminovos

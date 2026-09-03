@@ -28,14 +28,14 @@ export function HomePage() {
           <div className="w-full max-w-2xl pt-6 sm:pt-10 lg:max-w-[520px] lg:pt-0" data-reveal>
             <BrandLogo showName size="lg" />
             <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] text-ink sm:mt-8 sm:text-5xl lg:text-6xl">
-              Seu próximo iPhone está <span className="text-blue-brand underline decoration-blue-brand/25 decoration-4 underline-offset-4">aqui</span>.
+              Seu próximo Apple está <span className="text-blue-brand underline decoration-blue-brand/25 decoration-4 underline-offset-4">aqui</span>.
             </h1>
             <p className="mt-4 max-w-[320px] text-base leading-7 text-slate-600 sm:max-w-xl sm:text-lg">
-              Escolha o modelo, confira cor e armazenamento, adicione ao carrinho e finalize com atendimento direto pelo WhatsApp.
+              Escolha o produto, confira cor e configuração, adicione ao carrinho e finalize com atendimento direto pelo WhatsApp.
             </p>
             <div className="mt-6 grid max-w-[320px] grid-cols-1 gap-3 sm:flex sm:max-w-none sm:flex-wrap">
-              <Link to="/iphones" className={buttonClassName({ variant: "primary", size: "lg", className: "w-full sm:w-auto" })}>
-                Ver iPhones
+              <Link to="/produtos-novos" className={buttonClassName({ variant: "primary", size: "lg", className: "w-full sm:w-auto" })}>
+                Ver produtos novos
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <a
@@ -91,7 +91,7 @@ export function HomePage() {
       <section className="border-y border-slate-200 bg-surface-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
-            eyebrow="Encontre seu iPhone"
+            eyebrow="Produtos novos"
             title="Catálogo organizado por modelo, cor e armazenamento"
             description="A loja lê automaticamente o cadastro em TypeScript para montar cards, filtros, páginas e estoque por variante."
           />
@@ -103,7 +103,7 @@ export function HomePage() {
             ].map(([model, label]) => (
               <Link
                 key={model}
-                to={`/iphones?modelo=${model}`}
+                to={`/produtos-novos?modelo=${model}`}
                 className="rounded-ui border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-soft"
                 data-reveal
               >
@@ -136,7 +136,7 @@ export function HomePage() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2" data-reveal-stagger>
             {[
-              [Smartphone, "iPhones novos"],
+              [Smartphone, "Produtos novos"],
               [MessageCircle, "Compra pelo WhatsApp"],
               [Truck, "Entrega em São Luís"],
               [PackageCheck, "Retirada a combinar"]

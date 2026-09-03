@@ -173,7 +173,7 @@ export function ProductCard({ product }: ProductCardProps) {
             size="sm"
             className="hidden w-full min-w-0 sm:inline-flex"
           >
-            <ShoppingBag className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+            <ShoppingBag className="h-5 w-5" aria-hidden="true" />
             Adicionar
           </Button>
         </div>

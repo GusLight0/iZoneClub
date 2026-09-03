@@ -1,6 +1,6 @@
 # iZone Club
 
-E-commerce front-end em React, TypeScript, Vite e Tailwind CSS para venda de iPhones com carrinho em `localStorage` e finalização pelo WhatsApp.
+E-commerce front-end em React, TypeScript, Vite e Tailwind CSS para venda de produtos Apple com carrinho em `localStorage` e finalização pelo WhatsApp.
 
 ## Como executar
 
@@ -23,9 +23,9 @@ Todos os produtos ficam em:
 src/data/products.ts
 ```
 
-Para cadastrar um novo iPhone, adicione um novo objeto dentro do array `products`. Não é preciso criar novo componente, nova página ou novo filtro.
+Para cadastrar um novo produto, adicione um novo objeto dentro do array `products`. Não é preciso criar novo componente, nova página ou novo filtro.
 
-## Como adicionar um iPhone
+## Como adicionar um produto
 
 Copie um produto existente em `src/data/products.ts`, troque:
 
@@ -44,7 +44,7 @@ O `slug` vira a URL do produto, por exemplo:
 /produto/iphone-16-pro
 ```
 
-## Como remover um iPhone
+## Como remover um produto
 
 Remova o objeto do produto no array `products`.
 

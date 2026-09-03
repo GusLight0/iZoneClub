@@ -21,7 +21,7 @@ interface SidebarProps {
 
 const navItems = [
   { label: "Início", href: "/", icon: Home },
-  { label: "iPhones", href: "/iphones", icon: Smartphone },
+  { label: "Produtos novos", href: "/produtos-novos", icon: Smartphone },
   { label: "Seminovos", href: "/seminovos", icon: PackageCheck },
   { label: "Atendimento", href: "/atendimento", icon: MessageCircle }
 ];

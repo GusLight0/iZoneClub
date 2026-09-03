@@ -21,8 +21,8 @@ export function FavoritesPage() {
         title="Nenhum favorito ainda."
         description="Salve modelos para comparar depois com mais calma."
         action={
-          <Link to="/iphones" className={buttonClassName({ variant: "primary" })}>
-            Ver iPhones
+          <Link to="/produtos-novos" className={buttonClassName({ variant: "primary" })}>
+            Ver produtos novos
           </Link>
         }
       />

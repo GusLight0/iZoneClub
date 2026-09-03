@@ -5,7 +5,7 @@ import { cn } from "../../utils/cn";
 
 const navItems = [
   { label: "Início", href: "/", icon: Home },
-  { label: "iPhones", href: "/iphones", icon: Smartphone },
+  { label: "Novos", href: "/produtos-novos", icon: Smartphone },
   { label: "Seminovos", href: "/seminovos", icon: PackageCheck },
   { label: "Carrinho", href: "/carrinho", icon: ShoppingBag }
 ];

@@ -57,8 +57,8 @@ export function SeminovosPage() {
           </div>
 
           <div className="mt-8" data-reveal>
-            <Link to="/iphones" className={buttonClassName({ variant: "dark" })}>
-              Ver iPhones novos
+            <Link to="/produtos-novos" className={buttonClassName({ variant: "dark" })}>
+              Ver produtos novos
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
