@@ -24,11 +24,11 @@ export function HomePage() {
     <>
       <section className="relative overflow-hidden border-b border-slate-200 bg-white">
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(21,94,239,0.08)_1px,transparent_1px),linear-gradient(rgba(21,94,239,0.06)_1px,transparent_1px)] bg-[size:46px_46px]" />
-        <div className="relative mx-auto grid min-h-[620px] max-w-7xl content-center gap-8 px-4 py-8 sm:px-6 lg:min-h-[720px] lg:grid-cols-[minmax(0,0.92fr)_minmax(420px,1fr)] lg:items-center lg:px-8">
+        <div className="relative mx-auto grid min-h-[620px] max-w-7xl content-center gap-8 px-4 py-2 sm:px-6 sm:py-8 lg:min-h-[720px] lg:grid-cols-[minmax(0,0.92fr)_minmax(420px,1fr)] lg:items-center lg:px-8">
           <div className="w-full max-w-2xl pt-6 sm:pt-10 lg:max-w-[520px] lg:pt-0" data-reveal>
             <BrandLogo showName size="lg" />
-            <h1 className="mt-8 text-balance text-4xl font-semibold leading-[1.05] text-ink sm:text-5xl lg:text-6xl">
-              Seu próximo iPhone está aqui.
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] text-ink sm:mt-8 sm:text-5xl lg:text-6xl">
+              Seu próximo iPhone está <span className="text-blue-brand underline decoration-blue-brand/25 decoration-4 underline-offset-4">aqui</span>.
             </h1>
             <p className="mt-4 max-w-[320px] text-base leading-7 text-slate-600 sm:max-w-xl sm:text-lg">
               Escolha o modelo, confira cor e armazenamento, adicione ao carrinho e finalize com atendimento direto pelo WhatsApp.

@@ -121,34 +121,90 @@ textarea {
   }
 }
 
-@keyframes hero-mobile-slide {
+@keyframes hero-mobile-center {
   0%,
-  22% {
+  25% {
     opacity: 1;
     transform: translate3d(-50%, -50%, 0) scale(1);
     z-index: 2;
   }
 
-  30%,
-  35%,
-  55% {
+  37%,
+  58% {
     opacity: 0.38;
     transform: translate3d(calc(-50% - min(22vw, 100px)), -50%, 0) scale(0.72);
     z-index: 1;
   }
 
-  63%,
-  88% {
+  70%,
+  91% {
     opacity: 0.38;
     transform: translate3d(calc(-50% + min(22vw, 100px)), -50%, 0) scale(0.72);
     z-index: 1;
   }
 
-  96%,
   100% {
     opacity: 1;
     transform: translate3d(-50%, -50%, 0) scale(1);
     z-index: 2;
+  }
+}
+
+@keyframes hero-mobile-right {
+  0%,
+  25% {
+    opacity: 0.38;
+    transform: translate3d(calc(-50% + min(22vw, 100px)), -50%, 0) scale(0.72);
+    z-index: 1;
+  }
+
+  37%,
+  58% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    z-index: 2;
+  }
+
+  70%,
+  91% {
+    opacity: 0.38;
+    transform: translate3d(calc(-50% - min(22vw, 100px)), -50%, 0) scale(0.72);
+    z-index: 1;
+  }
+
+  100% {
+    opacity: 0.38;
+    transform: translate3d(calc(-50% + min(22vw, 100px)), -50%, 0) scale(0.72);
+    z-index: 1;
+  }
+}
+
+@keyframes hero-mobile-left {
+  0%,
+  25% {
+    opacity: 0.38;
+    transform: translate3d(calc(-50% - min(22vw, 100px)), -50%, 0) scale(0.72);
+    z-index: 1;
+  }
+
+  37%,
+  58% {
+    opacity: 0.38;
+    transform: translate3d(calc(-50% + min(22vw, 100px)), -50%, 0) scale(0.72);
+    z-index: 1;
+  }
+
+  70%,
+  91% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    z-index: 2;
+  }
+
+  100% {
+    opacity: 0.38;
+    transform: translate3d(calc(-50% - min(22vw, 100px)), -50%, 0) scale(0.72);
+    z-index: 1;
   }
 }
 
@@ -163,7 +219,10 @@ textarea {
     aspect-ratio: 4 / 5;
     opacity: 1;
     transform: translate3d(-50%, -50%, 0) scale(0.98);
-    animation: hero-mobile-slide 9s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+    animation-duration: 12s;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
   }
 
   .hero-mobile-slide-first,
@@ -173,15 +232,15 @@ textarea {
   }
 
   .hero-mobile-slide-first {
-    animation-delay: 0s;
+    animation-name: hero-mobile-center;
   }
 
   .hero-mobile-slide-second {
-    animation-delay: 3s;
+    animation-name: hero-mobile-right;
   }
 
   .hero-mobile-slide-third {
-    animation-delay: 6s;
+    animation-name: hero-mobile-left;
   }
 }
 
@@ -194,7 +253,7 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   .hero-mobile-slide {
     animation: none;
-    opacity: 0.35;
+    opacity: 0.38;
     transform: translate3d(calc(-50% + min(22vw, 100px)), -50%, 0) scale(0.72);
   }
 
@@ -202,6 +261,10 @@ textarea {
     opacity: 1;
     transform: translate3d(-50%, -50%, 0) scale(1);
     z-index: 2;
+  }
+
+  .hero-mobile-slide-third {
+    transform: translate3d(calc(-50% - min(22vw, 100px)), -50%, 0) scale(0.72);
   }
 }
 
