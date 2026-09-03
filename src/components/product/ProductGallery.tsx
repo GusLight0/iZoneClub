@@ -43,7 +43,7 @@ export function ProductGallery({ images, productName, colorName }: ProductGaller
     <>
       <div className="product-gallery" data-reveal>
         <div
-          className="group relative aspect-[4/5] overflow-hidden rounded-ui border border-slate-200 bg-surface-50"
+          className="group relative aspect-[4/3] overflow-hidden rounded-ui border border-slate-200 bg-surface-50 sm:aspect-[4/5]"
           onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
           onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
         >

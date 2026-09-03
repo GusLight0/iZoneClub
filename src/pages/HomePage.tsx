@@ -66,10 +66,10 @@ export function HomePage() {
                 className={[
                   "absolute aspect-[4/5] rounded-ui border border-slate-200 bg-white object-contain p-1 shadow-soft transition duration-300",
                   index === 0
-                    ? "bottom-0 right-1 h-[230px] sm:h-[310px] lg:right-0 lg:h-[520px] hero-stack-first"
+                    ? "bottom-0 right-1 h-[230px] sm:h-[310px] lg:right-0 lg:h-[520px] hero-stack-first hero-mobile-slide hero-mobile-slide-first"
                     : index === 1
-                      ? "bottom-4 left-1 h-[170px] rotate-[-3deg] sm:h-[230px] lg:bottom-24 lg:left-0 lg:h-[340px]"
-                      : "bottom-2 right-1 h-[145px] rotate-[3deg] sm:h-[210px] lg:bottom-0 lg:left-16 lg:right-auto lg:h-[300px] hero-stack-last"
+                      ? "bottom-4 left-1 h-[170px] rotate-[-3deg] sm:h-[230px] lg:bottom-24 lg:left-0 lg:h-[340px] hero-mobile-slide hero-mobile-slide-second"
+                      : "bottom-2 right-1 h-[145px] rotate-[3deg] sm:h-[210px] lg:bottom-0 lg:left-16 lg:right-auto lg:h-[300px] hero-stack-last hero-mobile-slide hero-mobile-slide-third"
                 ].join(" ")}
               />
             ))}
