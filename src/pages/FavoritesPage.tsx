@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { products } from "../data/products";
+import { allProducts } from "../data/catalog";
 import { useFavorites } from "../contexts/FavoritesContext";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useScrollReveal } from "../hooks/useScrollReveal";
@@ -12,7 +12,7 @@ export function FavoritesPage() {
   usePageTitle("Favoritos | iZone Club");
   useScrollReveal();
   const { favorites } = useFavorites();
-  const favoriteProducts = products.filter((product) => favorites.includes(product.slug));
+  const favoriteProducts = allProducts.filter((product) => favorites.includes(product.slug));
 
   if (!favoriteProducts.length) {
     return (
@@ -21,8 +21,8 @@ export function FavoritesPage() {
         title="Nenhum favorito ainda."
         description="Salve modelos para comparar depois com mais calma."
         action={
-          <Link to="/produtos-novos" className={buttonClassName({ variant: "primary" })}>
-            Ver produtos novos
+          <Link to="/iphones" className={buttonClassName({ variant: "primary" })}>
+            Ver seções
           </Link>
         }
       />

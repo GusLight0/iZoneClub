@@ -6,16 +6,18 @@ interface StorageSelectorProps {
   variants: ProductVariant[];
   selectedStorage: StorageOption;
   onChange: (variant: ProductVariant) => void;
+  label?: string;
 }
 
-export function StorageSelector({ variants, selectedStorage, onChange }: StorageSelectorProps) {
+export function StorageSelector({ variants, selectedStorage, onChange, label = "Armazenamento" }: StorageSelectorProps) {
   return (
     <div>
-      <p className="text-sm font-semibold text-ink">Armazenamento</p>
+      <p className="text-sm font-semibold text-ink">{label}</p>
       <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
         {variants.map((variant) => {
           const selected = variant.storage === selectedStorage;
           const unavailable = variant.stock <= 0;
+          const optionLabel = variant.label ?? variant.storage;
 
           return (
             <button
@@ -31,7 +33,7 @@ export function StorageSelector({ variants, selectedStorage, onChange }: Storage
               )}
               aria-pressed={selected}
             >
-              <span className="block text-sm font-semibold">{variant.storage}</span>
+              <span className="block text-sm font-semibold">{optionLabel}</span>
               <span className="mt-1 block text-xs text-slate-500">
                 {unavailable ? "Sem estoque" : formatCurrency(variant.price)}
               </span>

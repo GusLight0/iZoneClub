@@ -48,7 +48,7 @@ export function CartLineItem({ item }: CartLineItemProps) {
               {item.productName}
             </Link>
             <p className="mt-1 text-xs text-slate-500">
-              {item.colorName} · {item.storage}
+              {item.colorName} · {item.optionLabel ?? "Armazenamento"}: {item.optionValue ?? item.storage}
             </p>
           </div>
           <Button type="button" variant="ghost" size="icon" onClick={remove} aria-label={`Remover ${item.productName}`}>

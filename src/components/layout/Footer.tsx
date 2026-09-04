@@ -29,8 +29,20 @@ export function Footer() {
             <Link to="/" className="text-slate-600 transition hover:text-blue-brand">
               Início
             </Link>
-            <Link to="/produtos-novos" className="text-slate-600 transition hover:text-blue-brand">
-              Produtos novos
+            <Link to="/iphones" className="text-slate-600 transition hover:text-blue-brand">
+              iPhone
+            </Link>
+            <Link to="/ipads" className="text-slate-600 transition hover:text-blue-brand">
+              iPad
+            </Link>
+            <Link to="/macbooks" className="text-slate-600 transition hover:text-blue-brand">
+              MacBook
+            </Link>
+            <Link to="/apple-watch" className="text-slate-600 transition hover:text-blue-brand">
+              Apple Watch
+            </Link>
+            <Link to="/acessorios" className="text-slate-600 transition hover:text-blue-brand">
+              Acessórios
             </Link>
             <Link to="/seminovos" className="text-slate-600 transition hover:text-blue-brand">
               Seminovos

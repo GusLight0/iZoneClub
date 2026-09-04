@@ -10,6 +10,14 @@ function buildUrl(message: string) {
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
+function getVariantLabel(product: Product) {
+  return product.variantLabel ?? "Armazenamento";
+}
+
+function getVariantValue(variant: ProductVariant) {
+  return variant.label ?? variant.storage;
+}
+
 export function createProductWhatsAppUrl(
   product: Product,
   color: ProductColor,
@@ -18,12 +26,14 @@ export function createProductWhatsAppUrl(
 ) {
   const subtotal = variant.price * quantity;
   const priceLabel = "Preço";
+  const variantLabel = getVariantLabel(product);
+  const variantValue = getVariantValue(variant);
 
   return buildUrl(`Olá! Tenho interesse neste produto da iZone Club.
 
 Produto: ${product.name}
 Cor: ${color.name}
-Armazenamento: ${variant.storage}
+${variantLabel}: ${variantValue}
 Quantidade: ${quantity}
 ${priceLabel}: ${formatCurrency(variant.price)}
 Subtotal estimado: ${formatCurrency(subtotal)}
@@ -40,7 +50,7 @@ export function createCartWhatsAppUrl(items: CartItem[], deliveryMode: DeliveryM
     .map(
       (item, index) => `${index + 1}. ${item.quantity}x ${item.productName}
 Cor: ${item.colorName}
-Armazenamento: ${item.storage}
+${item.optionLabel ?? "Armazenamento"}: ${item.optionValue ?? item.storage}
 Valor unitário: ${formatCurrency(item.price)}
 Subtotal: ${formatCurrency(item.price * item.quantity)}`
     )

@@ -2,18 +2,22 @@ import { ChevronLeft, ChevronRight, Minus, Plus, Search, X } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
 import { cn } from "../../utils/cn";
+import type { ProductImageAspectRatio } from "../../types/product";
 
 interface ProductGalleryProps {
   images: string[];
   productName: string;
   colorName: string;
+  imageAspectRatio?: ProductImageAspectRatio;
 }
 
-export function ProductGallery({ images, productName, colorName }: ProductGalleryProps) {
+export function ProductGallery({ images, productName, colorName, imageAspectRatio = "default" }: ProductGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [zoomOpen, setZoomOpen] = useState(false);
   const [zoom, setZoom] = useState(1.4);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const isPortraitImage = imageAspectRatio === "portrait-3-4";
+  const imageSize = isPortraitImage ? { width: "900", height: "1200" } : { width: "1080", height: "1350" };
 
   useEffect(() => {
     setActiveIndex(0);
@@ -43,7 +47,10 @@ export function ProductGallery({ images, productName, colorName }: ProductGaller
     <>
       <div className="product-gallery" data-reveal>
         <div
-          className="group relative aspect-[4/3] overflow-hidden rounded-ui border border-slate-200 bg-surface-50 sm:aspect-[4/5]"
+          className={cn(
+            "group relative overflow-hidden rounded-ui border border-slate-200 bg-surface-50",
+            isPortraitImage ? "aspect-[3/4]" : "aspect-[4/3] sm:aspect-[4/5]"
+          )}
           onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
           onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
         >
@@ -51,10 +58,13 @@ export function ProductGallery({ images, productName, colorName }: ProductGaller
             key={activeImage}
             src={activeImage}
             alt={`${productName} na cor ${colorName}`}
-            className="h-full w-full object-contain p-2 transition duration-300 ease-smooth group-hover:scale-[1.015]"
+            className={cn(
+              "h-full w-full transition duration-300 ease-smooth group-hover:scale-[1.015]",
+              isPortraitImage ? "object-cover" : "object-contain p-2"
+            )}
             loading="eager"
-            width="1080"
-            height="1350"
+            width={imageSize.width}
+            height={imageSize.height}
           />
           <Button
             type="button"
@@ -100,7 +110,8 @@ export function ProductGallery({ images, productName, colorName }: ProductGaller
                 type="button"
                 onClick={() => goTo(index)}
                 className={cn(
-                  "aspect-[4/5] overflow-hidden rounded-ui border bg-white p-1 outline-none transition focus-visible:ring-2 focus-visible:ring-blue-brand",
+                  "overflow-hidden rounded-ui border bg-white outline-none transition focus-visible:ring-2 focus-visible:ring-blue-brand",
+                  isPortraitImage ? "aspect-[3/4]" : "aspect-[4/5] p-1",
                   index === activeIndex ? "border-blue-brand" : "border-slate-200 hover:border-blue-brand"
                 )}
                 aria-label={`Selecionar imagem ${index + 1}`}
@@ -108,10 +119,10 @@ export function ProductGallery({ images, productName, colorName }: ProductGaller
                 <img
                   src={image}
                   alt=""
-                  className="h-full w-full object-contain"
+                  className={cn("h-full w-full", isPortraitImage ? "object-cover" : "object-contain")}
                   loading="lazy"
-                  width="160"
-                  height="200"
+                  width={isPortraitImage ? "120" : "160"}
+                  height={isPortraitImage ? "160" : "200"}
                 />
               </button>
             ))}

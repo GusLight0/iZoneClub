@@ -24,7 +24,7 @@ export function productMatchesSearch(product: Product, query: string) {
     ...product.tags,
     ...product.colors.flatMap((color) => [
       color.name,
-      ...color.variants.map((variant) => variant.storage)
+      ...color.variants.flatMap((variant) => [variant.storage, variant.label ?? ""])
     ])
   ].join(" ");
 

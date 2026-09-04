@@ -23,10 +23,10 @@ export function CartPage() {
       <EmptyState
         icon={<ShoppingBag className="h-5 w-5" aria-hidden="true" />}
         title="Seu carrinho está vazio."
-        description="Encontre seu próximo iPhone e finalize pelo WhatsApp."
+        description="Encontre seu próximo produto Apple e finalize pelo WhatsApp."
         action={
-          <Link to="/produtos-novos" className={buttonClassName({ variant: "primary" })}>
-            Explorar produtos
+          <Link to="/iphones" className={buttonClassName({ variant: "primary" })}>
+            Explorar seções
           </Link>
         }
       />

@@ -71,6 +71,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
               colorId: payload.color.id,
               colorName: payload.color.name,
               storage: payload.variant.storage,
+              optionLabel: payload.product.variantLabel ?? "Armazenamento",
+              optionValue: payload.variant.label ?? payload.variant.storage,
               image: payload.image,
               quantity,
               price: payload.variant.price,

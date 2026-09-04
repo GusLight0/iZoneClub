@@ -1,11 +1,15 @@
 import {
+  Headphones,
   Home,
+  Laptop,
   Menu,
   MessageCircle,
   PackageCheck,
   PanelLeftClose,
   ShoppingBag,
-  Smartphone
+  Smartphone,
+  Tablet,
+  Watch
 } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
@@ -21,7 +25,11 @@ interface SidebarProps {
 
 const navItems = [
   { label: "Início", href: "/", icon: Home },
-  { label: "Produtos novos", href: "/produtos-novos", icon: Smartphone },
+  { label: "iPhone", href: "/iphones", icon: Smartphone },
+  { label: "iPad", href: "/ipads", icon: Tablet },
+  { label: "MacBook", href: "/macbooks", icon: Laptop },
+  { label: "Apple Watch", href: "/apple-watch", icon: Watch },
+  { label: "Acessórios", href: "/acessorios", icon: Headphones },
   { label: "Seminovos", href: "/seminovos", icon: PackageCheck },
   { label: "Atendimento", href: "/atendimento", icon: MessageCircle }
 ];

@@ -1,8 +1,7 @@
 import { SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getCategoryById, productCategories } from "../data/productCategories";
-import { products, storageOptions } from "../data/products";
+import { products } from "../data/products";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { SearchBar } from "../components/filters/SearchBar";
@@ -12,14 +11,13 @@ import { EmptyState } from "../components/ui/EmptyState";
 import { ProductGrid } from "../components/product/ProductGrid";
 import { getLowestPrice, getProductAvailability } from "../utils/stock";
 import { normalizeText, productMatchesSearch } from "../utils/search";
-import type { AvailabilityLabel } from "../types/product";
+import type { AvailabilityLabel, ProductVariant } from "../types/product";
 
 type SortOption = "newest" | "priceAsc" | "priceDesc" | "name";
 
 interface Filters {
-  category: string;
   model: string;
-  storage: string;
+  option: string;
   color: string;
   availability: "" | AvailabilityLabel;
   minPrice: string;
@@ -28,15 +26,18 @@ interface Filters {
 }
 
 const initialFilters: Filters = {
-  category: "",
   model: "",
-  storage: "",
+  option: "",
   color: "",
   availability: "",
   minPrice: "",
   maxPrice: "",
   sort: "newest"
 };
+
+function getVariantOptionLabel(variant: ProductVariant) {
+  return variant.label ?? variant.storage;
+}
 
 export function CatalogPage() {
   usePageTitle("Produtos novos | iZone Club");
@@ -46,42 +47,46 @@ export function CatalogPage() {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<Filters>(() => ({
     ...initialFilters,
-    category: searchParams.get("categoria") ?? "",
     model: searchParams.get("modelo") ?? "",
     sort: "newest"
   }));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const activeCategory = useMemo(() => getCategoryById(filters.category), [filters.category]);
 
-  const modelOptions = useMemo(() => {
-    const scopedProducts = activeCategory
-      ? products.filter((product) => product.category === activeCategory.label)
-      : products;
-
-    return Array.from(new Set(scopedProducts.map((product) => product.model.split(" ")[0])));
-  }, [activeCategory]);
+  const modelOptions = useMemo(
+    () => Array.from(new Set(products.map((product) => product.model))).sort((a, b) => a.localeCompare(b, "pt-BR")),
+    []
+  );
+  const optionOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          products.flatMap((product) =>
+            product.colors.flatMap((color) => color.variants.map((variant) => getVariantOptionLabel(variant)))
+          )
+        )
+      ).sort((a, b) => a.localeCompare(b, "pt-BR")),
+    []
+  );
   const colorOptions = useMemo(
-    () => {
-      const scopedProducts = activeCategory
-        ? products.filter((product) => product.category === activeCategory.label)
-        : products;
-
-      return Array.from(new Set(scopedProducts.flatMap((product) => product.colors.map((color) => color.name))));
-    },
-    [activeCategory]
+    () =>
+      Array.from(new Set(products.flatMap((product) => product.colors.map((color) => color.name)))).sort((a, b) =>
+        a.localeCompare(b, "pt-BR")
+      ),
+    []
   );
   const filteredProducts = useMemo(() => {
     const minPrice = Number(filters.minPrice) || 0;
     const maxPrice = Number(filters.maxPrice) || Number.POSITIVE_INFINITY;
 
     return [...products]
-      .filter((product) => !activeCategory || product.category === activeCategory.label)
       .filter((product) => productMatchesSearch(product, search))
-      .filter((product) => !filters.model || normalizeText(product.model).startsWith(normalizeText(filters.model)))
+      .filter((product) => !filters.model || normalizeText(product.model) === normalizeText(filters.model))
       .filter((product) =>
-        !filters.storage
+        !filters.option
           ? true
-          : product.colors.some((color) => color.variants.some((variant) => variant.storage === filters.storage))
+          : product.colors.some((color) =>
+              color.variants.some((variant) => normalizeText(getVariantOptionLabel(variant)) === normalizeText(filters.option))
+            )
       )
       .filter((product) =>
         !filters.color
@@ -99,20 +104,10 @@ export function CatalogPage() {
         if (filters.sort === "name") return a.name.localeCompare(b.name, "pt-BR");
         return b.releaseOrder - a.releaseOrder;
       });
-  }, [activeCategory, filters, search]);
+  }, [filters, search]);
 
   function updateFilter<Key extends keyof Filters>(key: Key, value: Filters[Key]) {
     setFilters((current) => ({ ...current, [key]: value }));
-  }
-
-  function updateCategory(categoryId: string) {
-    setFilters((current) => ({
-      ...current,
-      category: categoryId,
-      model: "",
-      storage: "",
-      color: ""
-    }));
   }
 
   function clearFilters() {
@@ -128,21 +123,6 @@ export function CatalogPage() {
   const controls = (
     <div className="grid gap-4">
       <label className="grid gap-1.5 text-sm font-medium text-ink">
-        Categoria
-        <select
-          value={filters.category}
-          onChange={(event) => updateCategory(event.target.value)}
-          className="h-11 rounded-ui border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:border-blue-brand focus:ring-2 focus:ring-blue-brand/15"
-        >
-          <option value="">Todas</option>
-          {productCategories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium text-ink">
         Modelo
         <select
           value={filters.model}
@@ -152,22 +132,22 @@ export function CatalogPage() {
           <option value="">Todos</option>
           {modelOptions.map((model) => (
             <option key={model} value={model}>
-              {activeCategory?.label === "iPhone" || !activeCategory ? `iPhone ${model}` : model}
+              {model}
             </option>
           ))}
         </select>
       </label>
       <label className="grid gap-1.5 text-sm font-medium text-ink">
-        Armazenamento
+        Opção
         <select
-          value={filters.storage}
-          onChange={(event) => updateFilter("storage", event.target.value)}
+          value={filters.option}
+          onChange={(event) => updateFilter("option", event.target.value)}
           className="h-11 rounded-ui border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:border-blue-brand focus:ring-2 focus:ring-blue-brand/15"
         >
-          <option value="">Todos</option>
-          {storageOptions.map((storage) => (
-            <option key={storage} value={storage}>
-              {storage}
+          <option value="">Todas</option>
+          {optionOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
             </option>
           ))}
         </select>
@@ -257,7 +237,7 @@ export function CatalogPage() {
             Produtos novos disponíveis
           </h1>
           <p className="mt-3 max-w-[310px] text-sm leading-6 text-slate-600 sm:max-w-2xl">
-            Busque e encontre seu próximo produto Apple por aqui.
+            Busque produtos novos sem misturar as seções principais da loja nos filtros.
           </p>
         </div>
 

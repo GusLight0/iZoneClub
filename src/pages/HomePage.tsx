@@ -1,6 +1,7 @@
 import { ArrowRight, CheckCircle2, MessageCircle, PackageCheck, Smartphone, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
-import { products } from "../data/products";
+import { productSections } from "../data/productSections";
+import { iphoneProducts, products } from "../data/products";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { buttonClassName } from "../components/ui/Button";
@@ -10,10 +11,10 @@ import { AccordionItem } from "../components/ui/Accordion";
 import { BrandLogo } from "../components/ui/BrandLogo";
 import { WHATSAPP_DISPLAY, WHATSAPP_PHONE } from "../utils/whatsapp";
 
-const featuredProducts = products.filter((product) => product.featured).slice(0, 4);
+const featuredProducts = iphoneProducts.filter((product) => product.featured).slice(0, 4);
 const newestProducts = [...products].sort((a, b) => b.releaseOrder - a.releaseOrder).slice(0, 4);
 const heroProducts = ["iphone-17-pro-max", "iphone-17", "iphone-16"].map(
-  (slug) => products.find((product) => product.slug === slug) ?? products[0]
+  (slug) => iphoneProducts.find((product) => product.slug === slug) ?? iphoneProducts[0]
 );
 
 export function HomePage() {
@@ -31,11 +32,11 @@ export function HomePage() {
               Seu próximo Apple está <span className="text-blue-brand underline decoration-blue-brand/25 decoration-4 underline-offset-4">aqui</span>.
             </h1>
             <p className="mt-4 max-w-[320px] text-base leading-7 text-slate-600 sm:max-w-xl sm:text-lg">
-              Escolha o produto, confira cor e configuração, adicione ao carrinho e finalize com atendimento direto pelo WhatsApp.
+              Escolha a seção, confira cor e configuração, adicione ao carrinho e finalize com atendimento direto pelo WhatsApp.
             </p>
             <div className="mt-6 grid max-w-[320px] grid-cols-1 gap-3 sm:flex sm:max-w-none sm:flex-wrap">
-              <Link to="/produtos-novos" className={buttonClassName({ variant: "primary", size: "lg", className: "w-full sm:w-auto" })}>
-                Ver produtos novos
+              <Link to="/iphones" className={buttonClassName({ variant: "primary", size: "lg", className: "w-full sm:w-auto" })}>
+                Ver iPhone
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <a
@@ -81,39 +82,64 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             eyebrow="Destaques"
-            title="Modelos em evidência"
-            description="Produtos demonstrativos cadastrados no arquivo de dados, prontos para serem substituídos pelos valores reais da loja."
+            title="Produtos em evidência"
+            description="Uma seleção inicial para cada seção começar organizada."
           />
           <ProductGrid products={featuredProducts} />
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-surface-50 px-4 py-12 sm:px-6 lg:px-8">
+      <section id="secoes" className="border-y border-slate-200 bg-surface-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
-            eyebrow="Produtos novos"
-            title="Catálogo organizado por modelo, cor e armazenamento"
-            description="A loja lê automaticamente o cadastro em TypeScript para montar cards, filtros, páginas e estoque por variante."
+            eyebrow="Seções"
+            title="Cada tipo de produto no seu espaço"
+            description="iPhone, iPad, MacBook, Apple Watch, Acessórios e Seminovos ficam separados."
           />
-          <div className="grid gap-3 sm:grid-cols-3" data-reveal-stagger>
-            {[
-              ["17", "Linha mais nova"],
-              ["16", "Equilíbrio premium"],
-              ["15", "Ótima escolha atual"]
-            ].map(([model, label]) => (
-              <Link
-                key={model}
-                to={`/produtos-novos?modelo=${model}`}
-                className="rounded-ui border border-slate-200 bg-white p-5 transition duration-200 hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-soft"
-                data-reveal
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-brand">iPhone {model}</p>
-                <p className="mt-2 text-lg font-semibold text-ink">{label}</p>
-                <p className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-600">
-                  Ver modelos <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </p>
-              </Link>
-            ))}
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger>
+            {productSections.map((section) => {
+              const Icon = section.icon;
+              const product = section.products[0];
+              const isPortraitImage = product?.imageAspectRatio === "portrait-3-4";
+
+              return (
+                <Link
+                  key={section.id}
+                  to={section.href}
+                  className="group grid min-h-[260px] overflow-hidden rounded-ui border border-slate-200 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-soft"
+                  data-reveal
+                >
+                  <div className="flex items-center justify-between gap-3 border-b border-slate-100 p-4">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <span className="grid h-10 w-10 flex-none place-items-center rounded-ui bg-blue-soft text-blue-deep">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <div className="min-w-0">
+                        <h3 className="truncate text-base font-semibold text-ink">{section.label}</h3>
+                        <p className="text-xs text-slate-500">{section.products.length} produto(s)</p>
+                      </div>
+                    </div>
+                    <ArrowRight className="h-4 w-4 flex-none text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-blue-brand" aria-hidden="true" />
+                  </div>
+                  {product ? (
+                    <div className="flex justify-center bg-surface-50 p-3">
+                      <img
+                        src={product.colors[0].images[0]}
+                        alt={product.name}
+                        className={[
+                          isPortraitImage ? "aspect-[3/4] h-52 max-w-full object-cover" : "h-44 w-full object-contain",
+                          "rounded-ui"
+                        ].join(" ")}
+                        loading="lazy"
+                        width={isPortraitImage ? "900" : "720"}
+                        height={isPortraitImage ? "1200" : "500"}
+                      />
+                    </div>
+                  ) : null}
+                  <p className="p-4 text-sm leading-6 text-slate-600">{section.description}</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -136,7 +162,7 @@ export function HomePage() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2" data-reveal-stagger>
             {[
-              [Smartphone, "Produtos novos"],
+              [Smartphone, "Produtos Apple"],
               [MessageCircle, "Compra pelo WhatsApp"],
               [Truck, "Entrega em São Luís"],
               [PackageCheck, "Retirada a combinar"]
@@ -153,14 +179,14 @@ export function HomePage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
           <div>
-            <SectionHeader eyebrow="Como comprar" title="Do catálogo ao WhatsApp em poucos passos" />
+            <SectionHeader eyebrow="Como comprar" title="Do produto ao WhatsApp em poucos passos" />
             <ol className="grid gap-3" data-reveal-stagger>
               {[
-                "Escolha seu iPhone.",
-                "Selecione cor e armazenamento.",
+                "Escolha uma seção.",
+                "Abra o produto.",
+                "Selecione cor e opção.",
                 "Adicione ao carrinho.",
-                "Finalize pelo WhatsApp.",
-                "Combine entrega ou retirada."
+                "Finalize pelo WhatsApp."
               ].map((step, index) => (
                 <li
                   key={step}
@@ -183,7 +209,7 @@ export function HomePage() {
                 A iZone Club atende inicialmente São Luís - MA, com entrega ou retirada a combinar pelo WhatsApp.
               </AccordionItem>
               <AccordionItem title="Como faço meu pedido?">
-                Escolha o iPhone, selecione a cor e o armazenamento, adicione ao carrinho e finalize pelo WhatsApp.
+                Escolha a seção, abra o produto, selecione a opção desejada, adicione ao carrinho e finalize pelo WhatsApp.
               </AccordionItem>
               <AccordionItem title="Quais formas de pagamento estão disponíveis?">
                 As opções de pagamento são confirmadas durante o atendimento pelo WhatsApp.

@@ -2,6 +2,13 @@ import type { Product, ProductColor, ProductVariant, StorageOption } from "../ty
 
 const STORAGE_OPTIONS: StorageOption[] = ["128GB", "256GB", "512GB", "1TB"];
 
+const IPAD_IMAGE = "https://www.apple.com/v/home/images/ipad-air-m4/a/promo_ipad_air_m4__bgcv7t286k8y_large.jpg";
+const MACBOOK_IMAGE = "https://www.apple.com/v/home/images/macbook-air-m5/a/promo_macbook_air_m5__e5xk2yysqiie_large.jpg";
+const WATCH_IMAGE =
+  "https://www.apple.com/v/apple-watch-series-11/c/images/overview/product-viewer/product_landing_endframe__eaytrp6zz6c2_large.jpg";
+const ACCESSORY_IMAGE =
+  "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MQLN3_GEO_US?.v=S2U3dXZMblpTV3M4NkpScHppNDVqL1Y1N2w2YnRDOUU3NzYxVzNjaDM5cStpNFY0WVMxUVlnblJXSGt4T2pKc1lPWmZLL1BoWTdTZkt0SUlGYmZWZmc&fmt=jpeg&hei=2000&qlt=90&wid=2000";
+
 function variants(basePrice: number, stocks: [number, number, number, number]): ProductVariant[] {
   const priceSteps = [0, 500, 1100, 1900];
 
@@ -12,27 +19,32 @@ function variants(basePrice: number, stocks: [number, number, number, number]): 
   }));
 }
 
+function variant(storage: StorageOption, price: number, stock: number, label?: string): ProductVariant {
+  return { storage, price, stock, label };
+}
+
 function color(
   id: string,
   name: string,
   hex: string,
   image: string,
-  basePrice: number,
-  stocks: [number, number, number, number]
+  basePriceOrVariants: number | ProductVariant[],
+  stocks?: [number, number, number, number]
 ): ProductColor {
   return {
     id,
     name,
     hex,
     images: [image],
-    variants: variants(basePrice, stocks)
+    variants: Array.isArray(basePriceOrVariants)
+      ? basePriceOrVariants
+      : variants(basePriceOrVariants, stocks ?? [0, 0, 0, 0])
   };
 }
 
-// Tutorial completo: leia src/data/TUTORIAL-PRODUTOS-NOVOS.md antes de editar.
-// Edite os produtos aqui. Para adicionar novas cores no futuro, acrescente outro objeto em "colors"
-// com imagens reais daquela cor e suas variantes de armazenamento/estoque/preço.
-export const products: Product[] = [
+// Tutorial completo: leia src/data/TUTORIAL-SECOES.md antes de editar.
+// Cada array abaixo alimenta uma seção própria do site.
+export const iphoneProducts: Product[] = [
   {
     id: "iphone-17",
     slug: "iphone-17",
@@ -42,6 +54,7 @@ export const products: Product[] = [
     description:
       "Uma opção moderna para quem quer entrar na linha mais nova com uma experiência rápida, elegante e pronta para uso diário.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: true,
     isNew: true,
     priceIsEstimated: true,
@@ -60,6 +73,7 @@ export const products: Product[] = [
     description:
       "Criado para quem busca recursos profissionais, construção sofisticada e uma experiência de compra direta pelo WhatsApp.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: true,
     isNew: true,
     priceIsEstimated: true,
@@ -78,6 +92,7 @@ export const products: Product[] = [
     description:
       "A escolha para quem prefere tela ampla, acabamento marcante e configuração premium em todos os detalhes.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: true,
     isNew: true,
     priceIsEstimated: true,
@@ -96,6 +111,7 @@ export const products: Product[] = [
     description:
       "Um iPhone atual, prático e sofisticado para quem quer desempenho consistente sem abrir mão do visual premium.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: true,
     isNew: false,
     priceIsEstimated: true,
@@ -114,6 +130,7 @@ export const products: Product[] = [
     description:
       "Um modelo indicado para quem procura mais potência, acabamento refinado e ótimo conjunto de câmeras.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: true,
     isNew: false,
     priceIsEstimated: true,
@@ -132,6 +149,7 @@ export const products: Product[] = [
     description:
       "Perfeito para quem quer tela grande, alta performance e uma presença visual premium.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: true,
     isNew: false,
     priceIsEstimated: true,
@@ -150,6 +168,7 @@ export const products: Product[] = [
     description:
       "Uma escolha elegante para quem quer um aparelho atual, leve e com compra simples pelo atendimento da iZone Club.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -168,6 +187,7 @@ export const products: Product[] = [
     description:
       "Indicado para quem procura uma experiência avançada com visual sóbrio e ótima durabilidade.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -186,6 +206,7 @@ export const products: Product[] = [
     description:
       "Uma configuração robusta para quem prioriza tela ampla, câmera avançada e performance.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -204,6 +225,7 @@ export const products: Product[] = [
     description:
       "Um iPhone confiável para quem quer uma experiência moderna, com compra orientada e atendimento direto.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -222,6 +244,7 @@ export const products: Product[] = [
     description:
       "Um modelo Pro com excelente presença visual e recursos avançados para uso intenso.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -240,6 +263,7 @@ export const products: Product[] = [
     description:
       "Uma alternativa premium para quem quer tela ampla e uma configuração Pro Max completa.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -258,6 +282,7 @@ export const products: Product[] = [
     description:
       "Uma entrada excelente para o ecossistema iPhone, com visual leve e compra facilitada pelo WhatsApp.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -276,6 +301,7 @@ export const products: Product[] = [
     description:
       "Um iPhone Pro ainda muito desejado, com acabamento azul sierra e experiência premium.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -294,6 +320,7 @@ export const products: Product[] = [
     description:
       "Uma opção elegante para quem quer tela maior, construção Pro e atendimento direto para finalizar a compra.",
     category: "iPhone",
+    variantLabel: "Armazenamento",
     featured: false,
     isNew: false,
     priceIsEstimated: true,
@@ -303,6 +330,119 @@ export const products: Product[] = [
       color("azul-sierra", "Azul sierra", "#A9C4DC", "/images/products/iphone-13-pro-max.jpeg", 4999, [1, 1, 1, 1])
     ]
   }
+];
+
+export const ipadProducts: Product[] = [
+  {
+    id: "ipad-air-11-m4-azul",
+    slug: "ipad-air-11-m4-azul",
+    name: "iPad Air 11 M4",
+    model: "Air 11",
+    shortDescription: "iPad Air novo, leve e pronto para estudo, trabalho e criação.",
+    description:
+      "iPad Air 11 M4 novo usado como produto de exemplo da seção iPad. Confirme configuração, valor e disponibilidade pelo atendimento.",
+    category: "iPad",
+    variantLabel: "Armazenamento",
+    imageAspectRatio: "portrait-3-4",
+    featured: false,
+    isNew: true,
+    priceIsEstimated: true,
+    releaseOrder: 2026.5,
+    tags: ["ipad", "air", "m4", "azul", "novo"],
+    colors: [
+      color("azul", "Azul", "#A9C8D8", IPAD_IMAGE, [
+        variant("128GB", 5799, 1),
+        variant("256GB", 6499, 1),
+        variant("512GB", 7799, 0),
+        variant("1TB", 9499, 0)
+      ])
+    ]
+  }
+];
+
+export const macBookProducts: Product[] = [
+  {
+    id: "macbook-air-13-m5-sky-blue",
+    slug: "macbook-air-13-m5-sky-blue",
+    name: "MacBook Air 13 M5",
+    model: "Air 13",
+    shortDescription: "MacBook Air novo em azul claro para rotina profissional e estudos.",
+    description:
+      "MacBook Air 13 M5 novo usado como produto de exemplo da seção MacBook. Confirme configuração, valor e disponibilidade pelo atendimento.",
+    category: "MacBook",
+    variantLabel: "Configuração",
+    imageAspectRatio: "portrait-3-4",
+    featured: false,
+    isNew: true,
+    priceIsEstimated: true,
+    releaseOrder: 2026.4,
+    tags: ["macbook", "air", "m5", "sky blue", "novo"],
+    colors: [
+      color("sky-blue", "Sky Blue", "#BFDDEC", MACBOOK_IMAGE, [
+        variant("256GB", 9999, 1, "256GB SSD"),
+        variant("512GB", 11999, 1, "512GB SSD")
+      ])
+    ]
+  }
+];
+
+export const appleWatchProducts: Product[] = [
+  {
+    id: "apple-watch-series-11-rose-gold",
+    slug: "apple-watch-series-11-rose-gold",
+    name: "Apple Watch Series 11",
+    model: "Series 11",
+    shortDescription: "Apple Watch novo em rose gold para saúde, treinos e notificações.",
+    description:
+      "Apple Watch Series 11 novo usado como produto de exemplo da seção Apple Watch. Confirme tamanho, valor e disponibilidade pelo atendimento.",
+    category: "Apple Watch",
+    variantLabel: "Tamanho",
+    imageAspectRatio: "portrait-3-4",
+    featured: false,
+    isNew: true,
+    priceIsEstimated: true,
+    releaseOrder: 2026.3,
+    tags: ["apple watch", "series 11", "rose gold", "novo"],
+    colors: [
+      color("rose-gold", "Rose Gold", "#D9A38F", WATCH_IMAGE, [
+        variant("128GB", 3999, 1, "42mm"),
+        variant("256GB", 4299, 1, "46mm")
+      ])
+    ]
+  }
+];
+
+export const accessoryProducts: Product[] = [
+  {
+    id: "adaptador-usb-c-70w",
+    slug: "adaptador-usb-c-70w",
+    name: "Adaptador de Energia USB-C de 70W",
+    model: "70W USB-C",
+    shortDescription: "Carregador USB-C Apple para uso em casa, escritório ou viagem.",
+    description:
+      "Adaptador de Energia USB-C de 70W usado como produto de exemplo da seção Acessórios. Confirme compatibilidade, valor e disponibilidade pelo atendimento.",
+    category: "Acessórios",
+    variantLabel: "Opção",
+    imageAspectRatio: "portrait-3-4",
+    featured: false,
+    isNew: true,
+    priceIsEstimated: true,
+    releaseOrder: 2026.2,
+    tags: ["acessorio", "adaptador", "usb-c", "70w", "carregador"],
+    colors: [
+      color("branco", "Branco", "#F8FAFC", ACCESSORY_IMAGE, [
+        variant("128GB", 599, 1, "Única")
+      ])
+    ]
+  }
+];
+
+export const products: Product[] = [
+  ...iphoneProducts,
+  ...ipadProducts,
+  ...macBookProducts,
+  ...appleWatchProducts,
+  ...accessoryProducts
 ];
 
 export const storageOptions = STORAGE_OPTIONS;

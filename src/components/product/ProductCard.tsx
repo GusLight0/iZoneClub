@@ -26,6 +26,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const totalStock = getTotalStock(product);
   const firstAvailable = getFirstAvailableVariant(product);
   const image = firstAvailable?.color.images[0] ?? product.colors[0]?.images[0];
+  const isPortraitImage = product.imageAspectRatio === "portrait-3-4";
+  const imageSize = isPortraitImage ? { width: "900", height: "1200" } : { width: "1080", height: "1350" };
   const favorite = isFavorite(product.slug);
 
   function applyImageMotion() {
@@ -102,15 +104,18 @@ export function ProductCard({ product }: ProductCardProps) {
         onPointerMove={handleMediaPointerMove}
         onPointerLeave={handleMediaPointerLeave}
       >
-        <div className="aspect-[4/5]">
+        <div className={isPortraitImage ? "aspect-[3/4]" : "aspect-[4/5]"}>
           <Link to={`/produto/${product.slug}`} className="relative z-[1] block h-full" aria-label={`Ver detalhes de ${product.name}`}>
             <img
               src={image}
               alt={product.name}
-              className="product-card-image h-full w-full object-contain p-1.5 transition duration-500 ease-smooth sm:p-2"
+              className={cn(
+                "product-card-image h-full w-full transition duration-500 ease-smooth",
+                isPortraitImage ? "object-cover" : "object-contain p-1.5 sm:p-2"
+              )}
               loading="lazy"
-              width="1080"
-              height="1350"
+              width={imageSize.width}
+              height={imageSize.height}
             />
           </Link>
         </div>

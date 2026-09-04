@@ -2,6 +2,7 @@ import { ArrowLeft, Heart, MessageCircle, Share2, ShoppingBag } from "lucide-rea
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { getProductBySlug } from "../data/catalog";
+import { getProductSectionForProduct } from "../data/productSections";
 import type { ProductColor, ProductVariant, StorageOption } from "../types/product";
 import { useCart } from "../contexts/CartContext";
 import { useFavorites } from "../contexts/FavoritesContext";
@@ -68,8 +69,8 @@ export function ProductPage() {
             Voltar
           </button>
           <h1 className="text-3xl font-semibold text-ink">Produto não encontrado.</h1>
-          <Link to="/produtos-novos" className={buttonClassName({ variant: "primary", className: "mt-6" })}>
-            Ver catálogo
+          <Link to="/iphones" className={buttonClassName({ variant: "primary", className: "mt-6" })}>
+            Ver seções
           </Link>
         </div>
       </section>
@@ -79,6 +80,7 @@ export function ProductPage() {
   const activeProduct = product;
   const activeColor = selectedColor;
   const activeVariant = selectedVariant;
+  const activeSection = getProductSectionForProduct(activeProduct);
   const favorite = isFavorite(activeProduct.slug);
 
   function handleColorChange(color: ProductColor) {
@@ -146,10 +148,14 @@ export function ProductPage() {
             Início
           </Link>
           <span>/</span>
-          <Link to="/produtos-novos" className="transition hover:text-blue-brand">
-            Produtos novos
-          </Link>
-          <span>/</span>
+          {activeSection ? (
+            <>
+              <Link to={activeSection.href} className="transition hover:text-blue-brand">
+                {activeSection.label}
+              </Link>
+              <span>/</span>
+            </>
+          ) : null}
           <span className="text-slate-700">{product.name}</span>
         </nav>
 
@@ -164,7 +170,12 @@ export function ProductPage() {
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,0.72fr)] lg:items-start">
           <div className="mx-auto w-full max-w-[540px] lg:max-w-none">
-            <ProductGallery images={selectedColor.images} productName={product.name} colorName={selectedColor.name} />
+            <ProductGallery
+              images={selectedColor.images}
+              productName={product.name}
+              colorName={selectedColor.name}
+              imageAspectRatio={product.imageAspectRatio}
+            />
           </div>
 
           <div className="lg:sticky lg:top-6" data-reveal data-reveal-delay="120">
@@ -231,6 +242,7 @@ export function ProductPage() {
                 variants={selectedColor.variants}
                 selectedStorage={selectedVariant.storage}
                 onChange={handleStorageChange}
+                label={product.variantLabel}
               />
               <QuantitySelector
                 value={quantity}
@@ -267,8 +279,8 @@ export function ProductPage() {
               <AccordionItem title="Trocas e garantia">
                 Esta área está preparada para as políticas futuras da loja e deve ser revisada antes da publicação.
               </AccordionItem>
-              <AccordionItem title="Como adicionar novas cores">
-                Cadastre a nova cor em <code>src/data/products.ts</code>, incluindo imagens reais, estoques e preços por armazenamento.
+              <AccordionItem title="Como adicionar novas opções">
+                Cadastre a nova opção no arquivo de dados da seção, incluindo imagens reais, estoque e preço.
               </AccordionItem>
             </div>
           </div>

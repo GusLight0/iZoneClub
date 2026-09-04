@@ -54,10 +54,10 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
             <EmptyState
               icon={<ShoppingBag className="h-5 w-5" aria-hidden="true" />}
               title="Seu carrinho está vazio."
-              description="Encontre seu próximo iPhone e finalize pelo WhatsApp."
+              description="Encontre seu próximo produto Apple e finalize pelo WhatsApp."
               action={
-                <Link to="/produtos-novos" onClick={onClose} className={buttonClassName({ variant: "primary" })}>
-                  Explorar produtos
+                <Link to="/iphones" onClick={onClose} className={buttonClassName({ variant: "primary" })}>
+                  Explorar seções
                 </Link>
               }
             />
