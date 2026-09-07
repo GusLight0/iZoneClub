@@ -1,4 +1,4 @@
-export type StorageOption = "128GB" | "256GB" | "512GB" | "1TB";
+export type StorageOption = "128GB" | "256GB" | "512GB" | "1TB" | "2TB" | "40mm" | "42mm" | "44mm" | "46mm" | "unique";
 export type ProductCategory = "iPhone" | "iPad" | "MacBook" | "Apple Watch" | "Acessórios";
 export type ProductImageAspectRatio = "default" | "portrait-3-4";
 

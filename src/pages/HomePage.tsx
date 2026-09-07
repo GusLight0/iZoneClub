@@ -13,7 +13,7 @@ import { WHATSAPP_DISPLAY, WHATSAPP_PHONE } from "../utils/whatsapp";
 
 const featuredProducts = iphoneProducts.filter((product) => product.featured).slice(0, 4);
 const newestProducts = [...products].sort((a, b) => b.releaseOrder - a.releaseOrder).slice(0, 4);
-const heroProducts = ["iphone-17-pro-max", "iphone-17", "iphone-16"].map(
+const heroProducts = ["iphone-17-pro-max", "iphone-17", "iphone-16-pro-max"].map(
   (slug) => iphoneProducts.find((product) => product.slug === slug) ?? iphoneProducts[0]
 );
 
