@@ -1,5 +1,11 @@
 # iZone Club
 
+## Painel administrativo
+
+O painel de produtos fica em `/admin`. Configuração, SQLs, importação do catálogo e ativação no Netlify estão em [PAINEL-ADMIN-PASSO-A-PASSO.md](PAINEL-ADMIN-PASSO-A-PASSO.md).
+
+Com `VITE_CATALOG_SOURCE=supabase`, os produtos são editados pelo painel. Sem essa ativação, a loja continua usando os arquivos locais descritos abaixo.
+
 E-commerce front-end em React, TypeScript, Vite e Tailwind CSS para venda de produtos Apple com carrinho em `localStorage` e finalização pelo WhatsApp.
 
 ## Como executar

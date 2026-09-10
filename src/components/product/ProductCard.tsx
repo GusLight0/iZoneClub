@@ -26,6 +26,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const totalStock = getTotalStock(product);
   const firstAvailable = getFirstAvailableVariant(product);
   const image = firstAvailable?.color.images[0] ?? product.colors[0]?.images[0];
+  const explicitRatio = product.imageAspectRatio && product.imageAspectRatio !== "default" && product.imageAspectRatio !== "portrait-3-4";
+  const ratioClass = product.imageAspectRatio === "1:1" ? "aspect-square" : product.imageAspectRatio === "4:3" ? "aspect-[4/3]" : "aspect-[3/4]";
   const isPortraitImage = product.imageAspectRatio === "portrait-3-4";
   const imageSize = isPortraitImage ? { width: "900", height: "1200" } : { width: "1080", height: "1350" };
   const favorite = isFavorite(product.slug);
@@ -100,11 +102,11 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       <div
         ref={mediaRef}
-        className="product-card-media relative min-w-0 overflow-hidden rounded-t-ui bg-surface-50"
+        className="product-card-media relative flex aspect-[3/4] min-w-0 items-center overflow-hidden rounded-t-ui bg-surface-50"
         onPointerMove={handleMediaPointerMove}
         onPointerLeave={handleMediaPointerLeave}
       >
-        <div className={isPortraitImage ? "aspect-[3/4]" : "aspect-[4/5]"}>
+        <div className={cn("w-full", explicitRatio ? ratioClass : isPortraitImage ? "aspect-[3/4]" : "aspect-[4/5]")}>
           <Link to={`/produto/${product.slug}`} className="relative z-[1] block h-full" aria-label={`Ver detalhes de ${product.name}`}>
             <img
               src={image}
@@ -148,7 +150,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2 sm:mt-4 sm:gap-3">
           <StockBadge label={availability} stock={totalStock} />
           <div className="hidden -space-x-1 sm:flex">
-            {product.colors.slice(0, 3).map((color) => (
+            {(product.hasColorOptions === false ? [] : product.colors).slice(0, 3).map((color) => (
               <span
                 key={color.id}
                 className="h-5 w-5 rounded-full border-2 border-white ring-1 ring-slate-200"
@@ -163,7 +165,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <PriceDisplay price={getLowestPrice(product)} estimated={product.priceIsEstimated} />
         </div>
 
-        <div className="mt-3 grid grid-cols-1 gap-2 sm:mt-5 2xl:grid-cols-2">
+        <div className="mt-auto pt-3 grid grid-cols-1 gap-2 sm:pt-5 2xl:grid-cols-2">
           <Link
             to={`/produto/${product.slug}`}
             className={buttonClassName({ variant: "secondary", size: "sm", className: "w-full min-w-0" })}

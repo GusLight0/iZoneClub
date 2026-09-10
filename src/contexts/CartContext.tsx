@@ -25,6 +25,7 @@ interface CartContextValue {
   updateQuantity: (key: string, quantity: number) => CartResult;
   removeItem: (key: string) => void;
   clearCart: () => void;
+  replaceItems: (items: CartItem[]) => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -71,8 +72,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
               colorId: payload.color.id,
               colorName: payload.color.name,
               storage: payload.variant.storage,
-              optionLabel: payload.product.variantLabel ?? "Armazenamento",
-              optionValue: payload.variant.label ?? payload.variant.storage,
+              optionLabel: payload.product.hasVariantOptions === false ? "" : payload.product.variantLabel ?? "Armazenamento",
+              optionValue: payload.product.hasVariantOptions === false ? "" : payload.variant.label ?? payload.variant.storage,
               image: payload.image,
               quantity,
               price: payload.variant.price,
@@ -146,7 +147,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       addItem,
       updateQuantity,
       removeItem,
-      clearCart
+      clearCart,
+      replaceItems: setItems
     };
   }, [items, setItems]);
 

@@ -1,6 +1,7 @@
 import { ArrowRight, MessageCircle, PackageOpen } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useCatalog } from "../contexts/CatalogContext";
 import type { ProductSectionId } from "../data/productSections";
 import { getProductSectionById, productSections } from "../data/productSections";
 import { usePageTitle } from "../hooks/usePageTitle";
@@ -17,7 +18,9 @@ interface ProductSectionPageProps {
 }
 
 export function ProductSectionPage({ sectionId }: ProductSectionPageProps) {
-  const section = getProductSectionById(sectionId) ?? productSections[0];
+  const { products } = useCatalog();
+  const metadata = getProductSectionById(sectionId) ?? productSections[0];
+  const section = { ...metadata, products: useMemo(() => products.filter(p => metadata.isPreOwned ? !p.isNew : p.isNew && p.category === metadata.category), [products, metadata]) };
   const relatedSections = productSections.filter((item) => item.id !== section.id).slice(0, 3);
   const [search, setSearch] = useState("");
   const filteredProducts = useMemo(
@@ -66,7 +69,7 @@ export function ProductSectionPage({ sectionId }: ProductSectionPageProps) {
               <EmptyState
                 icon={<PackageOpen className="h-5 w-5" aria-hidden="true" />}
                 title={section.emptyTitle}
-                description={section.emptyDescription}
+                description="Em breve teremos novidades nesta se??o. Consulte nossa equipe."
                 action={
                   <a
                     href={`https://wa.me/${WHATSAPP_PHONE}`}

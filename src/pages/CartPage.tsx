@@ -9,7 +9,7 @@ import { CartLineItem } from "../components/cart/CartLineItem";
 import { EmptyState } from "../components/ui/EmptyState";
 import { Button, buttonClassName } from "../components/ui/Button";
 import { formatCurrency } from "../utils/currency";
-import { createCartWhatsAppUrl } from "../utils/whatsapp";
+import { CheckoutButton } from "../components/cart/CheckoutButton";
 import { cn } from "../utils/cn";
 
 export function CartPage() {
@@ -84,15 +84,7 @@ export function CartPage() {
             <span className="text-sm text-slate-600">Total estimado</span>
             <strong className="text-xl text-ink">{formatCurrency(subtotal)}</strong>
           </div>
-          <a
-            href={createCartWhatsAppUrl(items, deliveryMode)}
-            target="_blank"
-            rel="noreferrer"
-            className={buttonClassName({ variant: "primary", size: "lg", className: "w-full" })}
-          >
-            <MessageCircle className="h-4 w-4" aria-hidden="true" />
-            Finalizar pelo WhatsApp
-          </a>
+          <CheckoutButton deliveryMode={deliveryMode} />
         </aside>
       </div>
     </section>

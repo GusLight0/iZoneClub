@@ -16,6 +16,7 @@ export function ProductGallery({ images, productName, colorName, imageAspectRati
   const [zoomOpen, setZoomOpen] = useState(false);
   const [zoom, setZoom] = useState(1.4);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const ratioClass = imageAspectRatio === "1:1" ? "aspect-square" : imageAspectRatio === "3:4" ? "aspect-[3/4]" : imageAspectRatio === "4:3" ? "aspect-[4/3]" : "";
   const isPortraitImage = imageAspectRatio === "portrait-3-4";
   const imageSize = isPortraitImage ? { width: "900", height: "1200" } : { width: "1080", height: "1350" };
 
@@ -49,7 +50,7 @@ export function ProductGallery({ images, productName, colorName, imageAspectRati
         <div
           className={cn(
             "group relative overflow-hidden rounded-ui border border-slate-200 bg-surface-50",
-            isPortraitImage ? "aspect-[3/4]" : "aspect-[4/3] sm:aspect-[4/5]"
+            ratioClass || (isPortraitImage ? "aspect-[3/4]" : "aspect-[4/3] sm:aspect-[4/5]")
           )}
           onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
           onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
@@ -111,7 +112,7 @@ export function ProductGallery({ images, productName, colorName, imageAspectRati
                 onClick={() => goTo(index)}
                 className={cn(
                   "overflow-hidden rounded-ui border bg-white outline-none transition focus-visible:ring-2 focus-visible:ring-blue-brand",
-                  isPortraitImage ? "aspect-[3/4]" : "aspect-[4/5] p-1",
+                  ratioClass || (isPortraitImage ? "aspect-[3/4]" : "aspect-[4/5] p-1"),
                   index === activeIndex ? "border-blue-brand" : "border-slate-200 hover:border-blue-brand"
                 )}
                 aria-label={`Selecionar imagem ${index + 1}`}

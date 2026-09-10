@@ -1,7 +1,8 @@
 import { ArrowLeft, Heart, MessageCircle, Share2, ShoppingBag } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { getProductBySlug } from "../data/catalog";
+import { fetchStoreProducts, toProduct, remoteCatalogEnabled, errorMessage } from "../lib/store";
+import { useCatalog } from "../contexts/CatalogContext";
 import { getProductSectionForProduct } from "../data/productSections";
 import type { ProductColor, ProductVariant, StorageOption } from "../types/product";
 import { useCart } from "../contexts/CartContext";
@@ -23,7 +24,9 @@ import { cn } from "../utils/cn";
 
 export function ProductPage() {
   const { slug } = useParams();
-  const product = slug ? getProductBySlug(slug) : undefined;
+  const { products, refresh } = useCatalog();
+  const [checkingPurchase, setCheckingPurchase] = useState(false);
+  const product = products.find(p => p.slug === slug);
   const navigate = useNavigate();
   const { addItem } = useCart();
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -138,7 +141,24 @@ export function ProductPage() {
     }
   }
 
-  const whatsappUrl = createProductWhatsAppUrl(activeProduct, activeColor, activeVariant, quantity);
+  async function buyNow() {
+    if (checkingPurchase || !available) return;
+    setCheckingPurchase(true);
+    try {
+      const current = remoteCatalogEnabled ? (await fetchStoreProducts()).map(toProduct) : products;
+      const p = current.find(p => p.id === activeProduct.id);
+      const c = p?.colors.find(c => c.id === activeColor.id);
+      const v = c?.variants.find(v => v.storage === activeVariant.storage);
+      if (!p || !c || !v || v.stock < quantity) throw new Error('Esta op??o ou quantidade n?o est? mais dispon?vel. Atualize a p?gina.');
+      if (v.price !== activeVariant.price || v.label !== activeVariant.label || c.name !== activeColor.name || p.name !== activeProduct.name) {
+        await refresh();
+        showToast('O produto foi atualizado. Confira os dados antes de comprar.', 'info');
+        return;
+      }
+      window.location.assign(createProductWhatsAppUrl(p, c, v, quantity));
+    } catch (e) {showToast(errorMessage(e), 'error');}
+    finally {setCheckingPurchase(false);}
+  }
 
   return (
     <section className="px-4 py-6 sm:px-6 lg:px-8">
@@ -237,13 +257,12 @@ export function ProductPage() {
             </div>
 
             <div className="mt-6 grid gap-6">
-              <ColorSelector colors={product.colors} selectedColorId={selectedColor.id} onChange={handleColorChange} />
-              <StorageSelector
+              {product.hasColorOptions !== false && <ColorSelector colors={product.colors} selectedColorId={selectedColor.id} onChange={handleColorChange} />}
+              {product.hasVariantOptions !== false && <StorageSelector
                 variants={selectedColor.variants}
                 selectedStorage={selectedVariant.storage}
                 onChange={handleStorageChange}
-                label={product.variantLabel}
-              />
+                label={product.variantLabel} />}
               <QuantitySelector
                 value={quantity}
                 max={stock}
@@ -257,19 +276,10 @@ export function ProductPage() {
                 <ShoppingBag className="h-4 w-4" aria-hidden="true" />
                 Adicionar ao carrinho
               </Button>
-              <a
-                href={available ? whatsappUrl : undefined}
-                target="_blank"
-                rel="noreferrer"
-                aria-disabled={!available}
-                className={buttonClassName({
-                  variant: "secondary",
-                  className: !available ? "pointer-events-none opacity-50" : undefined
-                })}
-              >
+              <Button type="button" variant="secondary" disabled={!available || checkingPurchase} onClick={() => void buyNow()}>
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                Comprar pelo WhatsApp
-              </a>
+                {checkingPurchase ? 'Conferindo estoque?' : 'Comprar pelo WhatsApp'}
+              </Button>
             </div>
 
             <div className="mt-8 rounded-ui border border-slate-200 px-4">
@@ -278,9 +288,6 @@ export function ProductPage() {
               </AccordionItem>
               <AccordionItem title="Trocas e garantia">
                 Esta área está preparada para as políticas futuras da loja e deve ser revisada antes da publicação.
-              </AccordionItem>
-              <AccordionItem title="Como adicionar novas opções">
-                Cadastre a nova opção no arquivo de dados da seção, incluindo imagens reais, estoque e preço.
               </AccordionItem>
             </div>
           </div>

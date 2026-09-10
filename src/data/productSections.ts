@@ -120,7 +120,7 @@ export function getProductSectionById(sectionId: ProductSectionId) {
 }
 
 export function getProductSectionForProduct(product: Product) {
-  if (preOwnedProducts.some((preOwnedProduct) => preOwnedProduct.id === product.id)) {
+  if (!product.isNew) {
     return productSections.find((section) => section.isPreOwned);
   }
 

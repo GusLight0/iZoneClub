@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { allProducts } from "../data/catalog";
+import { useCatalog } from "../contexts/CatalogContext";
 import { useFavorites } from "../contexts/FavoritesContext";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useScrollReveal } from "../hooks/useScrollReveal";
@@ -9,6 +9,7 @@ import { EmptyState } from "../components/ui/EmptyState";
 import { buttonClassName } from "../components/ui/Button";
 
 export function FavoritesPage() {
+  const { products: allProducts } = useCatalog();
   usePageTitle("Favoritos | iZone Club");
   useScrollReveal();
   const { favorites } = useFavorites();

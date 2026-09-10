@@ -1,6 +1,6 @@
-export type StorageOption = "128GB" | "256GB" | "512GB" | "1TB" | "2TB" | "40mm" | "42mm" | "44mm" | "46mm" | "unique";
+export type StorageOption = string;
 export type ProductCategory = "iPhone" | "iPad" | "MacBook" | "Apple Watch" | "Acessórios";
-export type ProductImageAspectRatio = "default" | "portrait-3-4";
+export type ProductImageAspectRatio = "default" | "portrait-3-4" | "1:1" | "3:4" | "4:3";
 
 export interface ProductVariant {
   storage: StorageOption;
@@ -26,6 +26,8 @@ export interface Product {
   description: string;
   category: ProductCategory;
   variantLabel?: string;
+  hasColorOptions?: boolean;
+  hasVariantOptions?: boolean;
   imageAspectRatio?: ProductImageAspectRatio;
   featured: boolean;
   isNew: boolean;

@@ -1,7 +1,7 @@
 import { SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { products } from "../data/products";
+import { useCatalog } from "../contexts/CatalogContext";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { SearchBar } from "../components/filters/SearchBar";
@@ -40,6 +40,8 @@ function getVariantOptionLabel(variant: ProductVariant) {
 }
 
 export function CatalogPage() {
+  const { products: allProducts } = useCatalog();
+  const products = useMemo(() => allProducts.filter(p => p.isNew), [allProducts]);
   usePageTitle("Produtos novos | iZone Club");
   useScrollReveal();
 
@@ -54,7 +56,7 @@ export function CatalogPage() {
 
   const modelOptions = useMemo(
     () => Array.from(new Set(products.map((product) => product.model))).sort((a, b) => a.localeCompare(b, "pt-BR")),
-    []
+    [products]
   );
   const optionOptions = useMemo(
     () =>
@@ -65,14 +67,14 @@ export function CatalogPage() {
           )
         )
       ).sort((a, b) => a.localeCompare(b, "pt-BR")),
-    []
+    [products]
   );
   const colorOptions = useMemo(
     () =>
       Array.from(new Set(products.flatMap((product) => product.colors.map((color) => color.name)))).sort((a, b) =>
         a.localeCompare(b, "pt-BR")
       ),
-    []
+    [products]
   );
   const filteredProducts = useMemo(() => {
     const minPrice = Number(filters.minPrice) || 0;
@@ -104,7 +106,7 @@ export function CatalogPage() {
         if (filters.sort === "name") return a.name.localeCompare(b.name, "pt-BR");
         return b.releaseOrder - a.releaseOrder;
       });
-  }, [filters, search]);
+  }, [filters, search, products]);
 
   function updateFilter<Key extends keyof Filters>(key: Key, value: Filters[Key]) {
     setFilters((current) => ({ ...current, [key]: value }));

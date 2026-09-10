@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/layout/AppLayout";
 import { HomePage } from "./pages/HomePage";
@@ -9,9 +10,12 @@ import { FavoritesPage } from "./pages/FavoritesPage";
 import { ContactPage } from "./pages/ContactPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
+const AdminPage = lazy(() => import("./pages/AdminPage"));
+
 export function App() {
   return (
     <Routes>
+      <Route path="admin" element={<Suspense fallback={<p className="p-8">Carregando painel?</p>}><AdminPage /></Suspense>} />
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path="produtos-novos" element={<CatalogPage />} />

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { CatalogProvider } from "./contexts/CatalogContext";
 import { App } from "./App";
 import { CartProvider } from "./contexts/CartContext";
 import { FavoritesProvider } from "./contexts/FavoritesContext";
@@ -12,9 +13,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <ToastProvider>
         <FavoritesProvider>
-          <CartProvider>
+          <CatalogProvider><CartProvider>
             <App />
-          </CartProvider>
+          </CartProvider></CatalogProvider>
         </FavoritesProvider>
       </ToastProvider>
     </BrowserRouter>

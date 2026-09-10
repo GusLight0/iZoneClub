@@ -32,8 +32,7 @@ export function createProductWhatsAppUrl(
   return buildUrl(`Olá! Tenho interesse neste produto da iZone Club.
 
 Produto: ${product.name}
-Cor: ${color.name}
-${variantLabel}: ${variantValue}
+${color.name ? `Cor: ${color.name}\n` : ""}${product.hasVariantOptions === false ? "" : `${variantLabel}: ${variantValue}\n`}
 Quantidade: ${quantity}
 ${priceLabel}: ${formatCurrency(variant.price)}
 Subtotal estimado: ${formatCurrency(subtotal)}
@@ -49,8 +48,7 @@ export function createCartWhatsAppUrl(items: CartItem[], deliveryMode: DeliveryM
   const orderLines = items
     .map(
       (item, index) => `${index + 1}. ${item.quantity}x ${item.productName}
-Cor: ${item.colorName}
-${item.optionLabel ?? "Armazenamento"}: ${item.optionValue ?? item.storage}
+${item.colorName ? `Cor: ${item.colorName}\n` : ""}${item.optionValue === "" ? "" : `${item.optionLabel ?? "Armazenamento"}: ${item.optionValue ?? item.storage}\n`}
 Valor unitário: ${formatCurrency(item.price)}
 Subtotal: ${formatCurrency(item.price * item.quantity)}`
     )

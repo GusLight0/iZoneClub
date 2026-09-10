@@ -1,7 +1,7 @@
 import { ArrowRight, CheckCircle2, MessageCircle, PackageCheck, Smartphone, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
-import { productSections } from "../data/productSections";
-import { iphoneProducts, products } from "../data/products";
+import { productSections as sectionMetadata } from "../data/productSections";
+import { useCatalog } from "../contexts/CatalogContext";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 import { buttonClassName } from "../components/ui/Button";
@@ -11,13 +11,13 @@ import { AccordionItem } from "../components/ui/Accordion";
 import { BrandLogo } from "../components/ui/BrandLogo";
 import { WHATSAPP_DISPLAY, WHATSAPP_PHONE } from "../utils/whatsapp";
 
-const featuredProducts = iphoneProducts.filter((product) => product.featured).slice(0, 4);
-const newestProducts = [...products].sort((a, b) => b.releaseOrder - a.releaseOrder).slice(0, 4);
-const heroProducts = ["iphone-17-pro-max", "iphone-17", "iphone-16-pro-max"].map(
-  (slug) => iphoneProducts.find((product) => product.slug === slug) ?? iphoneProducts[0]
-);
-
 export function HomePage() {
+  const { products } = useCatalog();
+  const iphoneProducts = products.filter(p => p.isNew && p.category === 'iPhone');
+  const featuredProducts = products.filter(p => p.featured).slice(0,4);
+  const newestProducts = products.filter(p => p.isNew).sort((a,b) => b.releaseOrder-a.releaseOrder).slice(0,4);
+  const heroProducts = iphoneProducts.slice(0,3);
+  const productSections = sectionMetadata.map(s => ({...s, products:products.filter(p => s.isPreOwned ? !p.isNew : p.isNew && p.category === s.category)}));
   usePageTitle("iZone Club");
   useScrollReveal();
 

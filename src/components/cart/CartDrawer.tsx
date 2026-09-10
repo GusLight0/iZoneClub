@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { DeliveryMode } from "../../types/cart";
 import { useCart } from "../../contexts/CartContext";
 import { formatCurrency } from "../../utils/currency";
-import { createCartWhatsAppUrl } from "../../utils/whatsapp";
+import { CheckoutButton } from "./CheckoutButton";
 import { Button, buttonClassName } from "../ui/Button";
 import { EmptyState } from "../ui/EmptyState";
 import { CartLineItem } from "./CartLineItem";
@@ -18,7 +18,7 @@ interface CartDrawerProps {
 export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const { items, subtotal, clearCart } = useCart();
   const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>("Entrega");
-  const whatsappUrl = createCartWhatsAppUrl(items, deliveryMode);
+
 
   return (
     <div className={cn("fixed inset-0 z-[75]", open ? "pointer-events-auto" : "pointer-events-none")} aria-hidden={!open}>
@@ -88,13 +88,11 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
               <span className="text-sm text-slate-600">Total estimado</span>
               <strong className="text-lg text-ink">{formatCurrency(subtotal)}</strong>
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid gap-2">
               <Button type="button" variant="secondary" onClick={clearCart}>
                 Esvaziar
               </Button>
-              <a href={whatsappUrl} target="_blank" rel="noreferrer" className={buttonClassName({ variant: "primary" })}>
-                Finalizar
-              </a>
+              <CheckoutButton deliveryMode={deliveryMode} />
             </div>
           </div>
         ) : null}

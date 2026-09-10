@@ -1,7 +1,7 @@
 ## ✏️ ACESSÓRIOS APPLE
 
 # Apple Pencil USB-C
-R$ 849,99
+- R$ 849,99
 # Apple Pencil Pro
 - R$ 1.199
 # Magic Mouse Preto
